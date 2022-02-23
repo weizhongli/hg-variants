@@ -35,7 +35,6 @@ This is done using the Dragen Bio-IT platform. An AWS FPGA instance (e.g. f1.4xl
 
 First the reference need to be indexed:
 <pre>
-cd 
 mkdir GRch38cnv
 dragen --build-hash-table true --ht-reference GCA_000001405.15_GRCh38_no_alt_plus_hs38d1_analysis_set.fna \
     --enable-cnv true --output-directory GRch38cnv --ht-num-threads 32
@@ -54,7 +53,13 @@ nohup /ephemeral/data/apps/ngomicswf/NG-Omics-WF.py3 -s NGS-samples -i dragen-va
 Here, NGS-samples is a text file list the sample names, one per line. the sample name is the first column in example/aws_folder/flowcell_all.tsv
 </pre>
 
-Here, the file dragen-variant-call-workflow.py describes the steps and command lines to pull fastq files from AWS s3, run dragen and save results back to AWS s3. dragen-variant-call-workflow.py need to be edited to specify the parameters, e.g. file path, s3 folder, dragen license key etc. NG-Omics-WF.py3 will generate needed SH scritps. Some scripts (workflow/dragen-examples/*sh) are provided for demo purpose. 
+Here, the file dragen-variant-call-workflow.py describes the steps and command lines to pull fastq files from AWS s3, run dragen and save results back to AWS s3. dragen-variant-call-workflow.py need to be edited to specify the parameters, e.g. file path, s3 folder, dragen license key etc. NG-Omics-WF.py3 will generate needed SH scritps. Some scripts (workflow/dragen-examples/\*sh) are provided for demo purpose. 
 
-After this step, the gVCF for SNVs and small indels, VCF for CNVs and VCF for SVs, other files and LOG files will be saved to AWS s3 folder.
+After this step, the gVCF for SNVs and small indels, VCF for CNVs and VCF for SVs, other files and LOG files will be saved to AWS s3 folder. Here, dragen_summary.py can be used to pull run data (e.g. number of variants per sample) from Dragen LOG files. dragen_summary.py provides several output (workflow/dragen-examples/NGS-samples\*tsv).
 
+<pre>
+dragen_summary.py -i NGS-samples -o NGS-samples
+</pre>
+
+## Join variants, GWAS analysis and annotation
+These were done using GLnexus, PLINK2 and ANNOVAR, using genotype.sh and then variant-ana.sh
