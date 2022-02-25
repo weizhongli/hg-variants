@@ -61,5 +61,14 @@ After this step, the gVCF for SNVs and small indels, VCF for CNVs and VCF for SV
 dragen_summary.py -i NGS-samples -o NGS-samples
 </pre>
 
+Also, after this step, there is additional run to parse the SVs by:
+<pre>
+sv-parser.sh
+</pre>
+This will generate the hg-call/HG.sv.pass.tsv within for each sample.
+
 ## Join variants, GWAS analysis and annotation
 These were done using GLnexus, PLINK2 and ANNOVAR, using genotype.sh and then variant-ana.sh
+
+
+
